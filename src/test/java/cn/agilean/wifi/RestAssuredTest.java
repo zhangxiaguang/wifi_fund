@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import cn.agilean.util.DataDriveTool;
@@ -12,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.authentication.FormAuthConfig;
 import com.jayway.restassured.path.json.JsonPath;
+
 import static com.jayway.restassured.RestAssured.given;
 /**
  * 
@@ -121,5 +123,13 @@ public class RestAssuredTest extends AbstractRestAssured{
 		given().contentType("application/json;charset=utf-8")
 				.when()
 				.get("http://mock-api.com/mockers/147").then().assertThat().statusCode(401);
+	}
+	
+	@Parameters({ "header1", "header2" })
+	@Test
+	public void should_return_json_str_and_check_result_by_get_with_headers_param(String header1, String header2) {
+		JsonPath jsonStr = wifiRestAssured("/rest/json/005", "GET", setHearders("header1", header1, "header2", header2), null, null).extract().jsonPath();
+		Assert.assertEquals(jsonStr.getString("code"), "005");
+		Assert.assertEquals(jsonStr.getString("name"), "005_name");
 	}
 }
