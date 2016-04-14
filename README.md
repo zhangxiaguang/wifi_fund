@@ -3,4 +3,6 @@
 
 2、TestNg + RestAssured + Parameters或DataProvider数据中心
 
-3、JUnit + cucumber
+3、JUnit + cucumber 
+
+4、jacoco单元测试覆盖率
